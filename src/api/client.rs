@@ -107,7 +107,7 @@ impl<T: AuthorizationProvider> Client<T> {
         end: NaiveDate,
     ) -> Result<Vec<GasTariff>, GetRecordsError> {
         let dto_records = self
-            .get_records::<GasTariffDto>(EnergyType::Electricity, ReadingType::Tariff, start, end)
+            .get_records::<GasTariffDto>(EnergyType::Gas, ReadingType::Tariff, start, end)
             .await?;
 
         let records: Result<Vec<GasTariff>, chrono::ParseError> =
