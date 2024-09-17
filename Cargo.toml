@@ -1,9 +1,9 @@
 [package]
-name = "n3rgy"
+name = "n3rgy_consumer_api_client"
 version = "0.1.0"
 edition = "2021"
 authors = ["rars <2265225+rars@users.noreply.github.com>"]
-description = "A client for retrieving energy data from n3rgy's REST API"
+description = "A client for retrieving energy data from n3rgy's consumer API"
 license = "MIT"
 repository = "https://github.com/rars/n3rgy-rs"
 readme = "README.md"

@@ -1,4 +1,4 @@
-# n3rgy-rs
+# n3rgy_consumer_api_client
 
 A Rust client for accessing electricity and gas smart meter data in the United Kingdom via the [n3rgy consumer data](https://www.n3rgy.com/consumer/) REST API.
 
@@ -18,12 +18,12 @@ Set the environment variable `N3RGY__APIKEY` to your In Home Device (IHD) MAC ad
 
 ```rust
 use chrono::{Days, Local};
-use n3rgy::Client;
+use n3rgy_consumer_api_client::{ConsumerApiClient, EnvironmentAuthorizationProvider};
 
 #[tokio::main]
 async fn main() {
-    let ap = n3rgy::EnvironmentAuthorizationProvider {};
-    let client = Client::new(ap, None);
+    let ap = EnvironmentAuthorizationProvider {};
+    let client = ConsumerApiClient::new(ap, None);
 
     let today = Local::now().date_naive();
     let yesterday = today.checked_sub_days(Days::new(1)).unwrap();
@@ -35,21 +35,21 @@ async fn main() {
         );
     }
 
-    if let Ok(tariff) = client.get_electricity_tariff(yesterday, today).await {
-        println!("Retrieved {} electricity tariff records", tariff.len());
+    if let Ok(consumption) = client.get_electricity_tariff(yesterday, today).await {
+        println!("Retrieved {} electricity tariff records", consumption.len());
     }
 
     if let Ok(consumption) = client.get_gas_consumption(yesterday, today).await {
         println!("Retrieved {} gas consumption records", consumption.len());
     }
 
-    if let Ok(tariff) = client.get_gas_tariff(yesterday, today).await {
-        println!("Retrieved {} gas tariff records", tariff.len());
+    if let Ok(consumption) = client.get_gas_tariff(yesterday, today).await {
+        println!("Retrieved {} gas tariff records", consumption.len());
     }
 }
 ```
 
-For interactive user input, consider using `StaticAuthorizationProvider::new(api_key)`.
+For interactive user input, consider using `StaticAuthorizationProvider::new(api_key)` rather than `EnvironmentAuthorizationProvider`.
 
 ### Important security note
 
