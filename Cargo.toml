@@ -1,6 +1,6 @@
 [package]
 name = "n3rgy_consumer_api_client"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 authors = ["rars <2265225+rars@users.noreply.github.com>"]
 description = "A client for retrieving energy data from n3rgy's consumer API"
