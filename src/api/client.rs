@@ -13,7 +13,7 @@ use crate::{
 
 use super::{
     consumption::ElectricityConsumption, ElectricityTariff, GasConsumption, GasTariff,
-    GetRecordsError,
+    N3rgyClientError,
 };
 
 const DEFAULT_BASE_URL: &str = "https://consumer-api.data.n3rgy.com";
@@ -48,7 +48,7 @@ impl<T: AuthorizationProvider> Client<T> {
         &self,
         start: NaiveDate,
         end: NaiveDate,
-    ) -> Result<Vec<ElectricityConsumption>, GetRecordsError> {
+    ) -> Result<Vec<ElectricityConsumption>, N3rgyClientError> {
         let dto_records = self
             .get_records::<ElectricityConsumptionDto>(
                 EnergyType::Electricity,
@@ -68,7 +68,7 @@ impl<T: AuthorizationProvider> Client<T> {
         &self,
         start: NaiveDate,
         end: NaiveDate,
-    ) -> Result<Vec<ElectricityTariff>, GetRecordsError> {
+    ) -> Result<Vec<ElectricityTariff>, N3rgyClientError> {
         let dto_records = self
             .get_records::<ElectricityTariffDto>(
                 EnergyType::Electricity,
@@ -90,7 +90,7 @@ impl<T: AuthorizationProvider> Client<T> {
         &self,
         start: NaiveDate,
         end: NaiveDate,
-    ) -> Result<Vec<GasConsumption>, GetRecordsError> {
+    ) -> Result<Vec<GasConsumption>, N3rgyClientError> {
         let dto_records = self
             .get_records::<GasConsumptionDto>(EnergyType::Gas, ReadingType::Consumption, start, end)
             .await?;
@@ -105,7 +105,7 @@ impl<T: AuthorizationProvider> Client<T> {
         &self,
         start: NaiveDate,
         end: NaiveDate,
-    ) -> Result<Vec<GasTariff>, GetRecordsError> {
+    ) -> Result<Vec<GasTariff>, N3rgyClientError> {
         let dto_records = self
             .get_records::<GasTariffDto>(EnergyType::Gas, ReadingType::Tariff, start, end)
             .await?;
@@ -122,7 +122,7 @@ impl<T: AuthorizationProvider> Client<T> {
         reading_type: ReadingType,
         start: NaiveDate,
         end: NaiveDate,
-    ) -> Result<Vec<U>, GetRecordsError>
+    ) -> Result<Vec<U>, N3rgyClientError>
     where
         U: DeserializeOwned,
     {
@@ -170,8 +170,8 @@ impl<T: AuthorizationProvider> Client<T> {
             return Ok(value_objects);
         }
 
-        Err(GetRecordsError::Custom(
-            "Could not retrieve 'values' property from response".into(),
-        ))
+        Err(N3rgyClientError::MissingProperty(String::from(
+            "Expected response to contain 'values' property but none found.",
+        )))
     }
 }

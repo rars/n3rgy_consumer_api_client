@@ -2,12 +2,19 @@
 name = "n3rgy"
 version = "0.1.0"
 edition = "2021"
+authors = ["rars <2265225+rars@users.noreply.github.com>"]
+description = "A client for retrieving energy data from n3rgy's REST API"
+license = "MIT"
+repository = "https://github.com/rars/n3rgy-rs"
+readme = "README.md"
+keywords = ["energy", "data"]
+categories = ["api-bindings"]
+rust-version = "1.81"
 
 [dependencies]
 chrono = { version = "0.4.38", features = ["serde"] }
 reqwest = { version = "0.12", features = ["json"] }
 serde = { version = "1.0.208", features = ["derive"] }
-tokio = { version = "1", features = ["full"] }
 serde_json = "1.0"
-url = "2.5"
 thiserror = "1.0"
+url = "2.5"

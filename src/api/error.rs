@@ -1,27 +1,24 @@
-use reqwest::Error as ReqwestError;
-use serde_json::Error as SerdeError;
 use thiserror::Error;
-use url::ParseError;
 
 #[derive(Debug, Error)]
-pub enum GetRecordsError {
-    #[error("Reqwest error: {0}")]
-    Reqwest(#[from] ReqwestError),
+pub enum N3rgyClientError {
+    #[error("HTTP request failed: {0}")]
+    Reqwest(#[from] reqwest::Error),
 
-    #[error("Serde error: {0}")]
-    Serde(#[from] SerdeError),
+    #[error("JSON serialization/deserialization failed: {0}")]
+    Serde(#[from] serde_json::Error),
 
-    #[error("Custom error: {0}")]
-    Custom(String),
+    #[error("Failed to find expected property: {0}")]
+    MissingProperty(String),
 
-    #[error("Parse error: {0}")]
-    Parse(#[from] ParseError),
+    #[error("URL parsing failed: {0}")]
+    Parse(#[from] url::ParseError),
 
-    #[error("Chrono parser error: {0}")]
+    #[error("Date/time parsing failed: {0}")]
     ChronoParse(#[from] chrono::ParseError),
 }
 
-impl serde::Serialize for GetRecordsError {
+impl serde::Serialize for N3rgyClientError {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where
         S: serde::ser::Serializer,
