@@ -506,7 +506,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "n3rgy"
+name = "n3rgy_consumer_api_client"
 version = "0.1.0"
 dependencies = [
  "chrono",

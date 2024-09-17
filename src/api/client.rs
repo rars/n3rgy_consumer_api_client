@@ -28,7 +28,7 @@ enum ReadingType {
     Tariff,
 }
 
-pub struct Client<T>
+pub struct ConsumerApiClient<T>
 where
     T: AuthorizationProvider,
 {
@@ -36,7 +36,7 @@ where
     base_url: String,
 }
 
-impl<T: AuthorizationProvider> Client<T> {
+impl<T: AuthorizationProvider> ConsumerApiClient<T> {
     pub fn new(authorization_provider: T, base_url: Option<String>) -> Self {
         Self {
             authorization_provider,
